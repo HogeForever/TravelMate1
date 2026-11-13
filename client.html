@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Клиент кабинеті</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="client">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title" data-lang="client_title">Клиенттің жеке кабинеті</h1>
+        <p class="muted"><span data-lang="welcome">Қош келдіңіз,</span> <b id="userName"></b> 👋</p>
+
+        <!-- ===== 1. Уведомления (Напоминание об оплате 48ч, вылет за 24ч) ===== -->
+        <div class="panel" id="clientNotificationsPanel">
+            <h2 data-lang="notifications_title">🔔 Хабарламалар мен ескертулер</h2>
+            <div id="clientNotificationsList" class="notifications-list"></div>
+        </div>
+
+        <!-- ===== 2. Мои бронирования, Таймер оплаты 48ч и Документы (QR-ваучер, PDF) ===== -->
+        <div class="panel">
+            <h2 data-lang="my_bookings">Менің брондауларым және төлемдерім</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-lang="tour">Тур & Сапар күні</th>
+                            <th data-lang="custom_col">Тур баптаулары & Развлечения</th>
+                            <th data-lang="total">Сомасы</th>
+                            <th data-lang="status">Бронь күйі</th>
+                            <th data-lang="payment_col">Төлем & Таймер (48 сағ)</th>
+                            <th data-lang="actions">Әрекеттер & Құжаттар</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientBookings"></tbody>
+                </table>
+            </div>
+            <div class="center">
+                <a href="tours.html" class="btn" data-lang="btn_find_tour">Жаңа тур табу</a>
+            </div>
+        </div>
+
+        <!-- ===== 3. Сохранённые данные туристов (Паспортные профили) ===== -->
+        <div class="panel">
+            <h2 data-lang="saved_travelers_title">🛂 Сақталған туристердің паспорт деректері</h2>
+            <p class="muted" style="margin-top:-6px; margin-bottom:12px; font-size:13px;">🔒 Паспортные данные изолированы и привязаны строго к вашему аккаунту (<b id="savedTravelersAccountEmail"></b>). Другие клиенты их не видят (доступ есть только у вас, турагентства и администратора).</p>
+            <div id="savedTravelersList" class="saved-travelers-grid"></div>
+            <form id="travelerProfileForm" class="traveler-add-form">
+                <input type="text" id="profFullName" placeholder="ФИО латиницей (IVAN IVANOV)" required>
+                <input type="text" id="profPassport" placeholder="№ паспорта (N12345678)" required>
+                <input type="date" id="profDob" value="1995-05-15" required>
+                <input type="tel" id="profPhone" placeholder="+7 700 000 00 00">
+                <button type="submit" class="btn btn-small">+ Сақтау / Добавить</button>
+            </form>
+        </div>
+
+        <!-- ===== 4. Избранные туры ===== -->
+        <div class="panel">
+            <h2 data-lang="favorites_title">❤️ Таңдаулы турлар</h2>
+            <div id="clientFavoritesGrid" class="grid"></div>
+        </div>
+    </main>
+
+    <!-- Контейнер для модального окна оплаты (48ч) и QR-ваучера / PDF документов -->
+    <div id="modalsContainer"></div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none; padding-top:0;">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Әкімші панелі</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="admin">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title" data-lang="admin_title">Әкімші панелі & Аналитика</h1>
+
+        <!-- ===== Статистика и Аналитика доходов ===== -->
+        <div class="stats">
+            <div class="card stat"><b id="statUsers">0</b><span data-lang="stats_users"></span></div>
+            <div class="card stat"><b id="statAgencies">0</b><span data-lang="stats_agencies"></span></div>
+            <div class="card stat"><b id="statTours">0</b><span data-lang="stats_tours"></span></div>
+            <div class="card stat"><b id="statBookings">0</b><span data-lang="stats_bookings"></span></div>
+            <div class="card stat"><b id="statRevenue" style="font-size:26px;">0 ₸</b><span data-lang="stats_revenue">Жалпы табыс</span></div>
+        </div>
+
+        <!-- ===== Сканер QR-кодов билетов и ваучеров ===== -->
+        <div class="panel">
+            <h2 data-lang="qr_scanner_title">📷 QR-код және электронды билетті тексеру сканері</h2>
+            <div class="qr-scanner-bar" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;">
+                <input type="text" id="qrScannerInput" placeholder="Введите код билета (например: TM-2026-0016 или ID брони: 16)..." style="flex:1; min-width:240px;">
+                <button type="button" class="btn" onclick="verifyQrTicket()">🔍 Тексеру / Проверить билет</button>
+            </div>
+            <div id="qrScannerResult"></div>
+        </div>
+
+        <!-- ===== Отчёты: продажи, загрузка туров, доходы ===== -->
+        <div class="panel">
+            <h2>📊 Отчёты: продажи, загрузка туров и доходы</h2>
+            <div id="adminReportsBox" class="grid"></div>
+        </div>
+
+        <!-- ===== Бронирования и оплаты (с фильтрами по статусам) ===== -->
+        <div class="panel">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+                <h2 data-lang="all_bookings" style="margin:0;">Барлық брондаулар мен төлемдер</h2>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <select id="adminFilterBookStatus" onchange="renderAdmin()" style="width:auto; padding:8px 12px; font-size:13px;">
+                        <option value="">Все статусы брони</option>
+                        <option value="pending">⏳ Ожидает</option>
+                        <option value="accepted">✅ Подтверждено</option>
+                        <option value="rejected">✕ Отклонено</option>
+                        <option value="cancelled">🚫 Отменено</option>
+                    </select>
+                    <select id="adminFilterPayStatus" onchange="renderAdmin()" style="width:auto; padding:8px 12px; font-size:13px;">
+                        <option value="">Все статусы оплаты</option>
+                        <option value="unpaid">⏳ Не оплачено (48ч)</option>
+                        <option value="partial">💳 Частично (30%)</option>
+                        <option value="paid">✅ Оплачено (100%)</option>
+                        <option value="refund">↩️ Возврат</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Код / ID</th>
+                            <th data-lang="tour">Тур</th>
+                            <th data-lang="client">Клиент & Паспорт</th>
+                            <th data-lang="custom_col">Баптаулар & Развлечения</th>
+                            <th data-lang="total">Сомасы</th>
+                            <th data-lang="payment_col">Төлем (48 сағ)</th>
+                            <th data-lang="status">Күйі</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBookings"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== Сохранённые паспортные данные всех клиентов (доступно только Админу и Турагентству) ===== -->
+        <div class="panel">
+            <h2>🛂 Сохранённые паспортные данные всех клиентов</h2>
+            <p class="muted" style="margin-top:-6px; margin-bottom:14px; font-size:13.5px;">🔒 У каждого клиента свой отдельный список паспортов (другие клиенты их не видят). Полный список всех сохранённых паспортных данных доступен только Администратору и Турагентству.</p>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Аккаунт клиента</th>
+                            <th>ФИО по паспорту (латиницей)</th>
+                            <th>№ паспорта</th>
+                            <th>Дата рождения</th>
+                            <th>Телефон</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTravelersTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== Пользователи ===== -->
+        <div class="panel">
+            <h2 data-lang="users">Пайдаланушылар</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-lang="name">Аты</th>
+                            <th data-lang="email">Email</th>
+                            <th data-lang="phone">Телефон</th>
+                            <th data-lang="role_col">Рөлі</th>
+                            <th data-lang="status">Күйі</th>
+                            <th data-lang="actions">Әрекеттер</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminUsers"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== Туры ===== -->
+        <div class="panel">
+            <h2 data-lang="all_tours">Барлық турлар</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-lang="tour">Тур</th>
+                            <th data-lang="country">Ел</th>
+                            <th data-lang="agency">Агенттік</th>
+                            <th data-lang="price">Баға</th>
+                            <th data-lang="actions">Әрекеттер</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTours"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== Сообщения из формы «Контакты» ===== -->
+        <div class="panel">
+            <h2 data-lang="messages">Хабарламалар</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th data-lang="date">Күні</th>
+                            <th data-lang="name">Аты</th>
+                            <th data-lang="email">Email</th>
+                            <th data-lang="message">Хабарлама</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminMessages"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="modalsContainer"></div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none; padding-top:0;">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>

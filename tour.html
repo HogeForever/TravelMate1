@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Тур</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="tour">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container tour-page-container">
+        <div class="back-nav-wrap">
+            <a href="tours.html" class="back-link-pill" data-lang="back">← Турлар каталогына оралу</a>
+        </div>
+
+        <div class="two-cols">
+            <!-- Левая колонка: расписание рейсов, конструктор тура, программа по дням, отзывы (app.js → renderTourPage) -->
+            <div id="tourDetails"></div>
+
+            <!-- Правая колонка: современное меню бронирования + паспортные данные + промокод + 48ч резерв -->
+            <aside class="booking-card" id="bookingBox">
+                <div class="booking-card-header">
+                    <div>
+                        <span class="booking-price-caption" data-lang="book_price_label">1 адамға базалық баға</span>
+                        <div class="booking-unit-price-row">
+                            <b id="bookingUnitPrice" class="booking-unit-price">350 000 ₸</b>
+                            <span class="booking-per-person" data-lang="per_person">/ 1 адамға</span>
+                        </div>
+                    </div>
+                    <div class="booking-header-badges">
+                        <span class="booking-fast-pill" data-lang="book_fast_badge">⚡ 48 сағат төлем резерві</span>
+                        <span id="bookingHotelTag" class="booking-rating-pill">
+                            <img src="images/star.png" alt="★" class="star-icon-img"> <b>5.0</b>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Статус наличия квот мест -->
+                <div id="bookingSeatsBanner" class="seats-status-banner"></div>
+
+                <h2 class="booking-card-title" data-lang="book_title">Турды брондау</h2>
+                <div id="bookingMsg"></div>
+                <div id="bookingNote"></div>
+
+                <form id="bookingForm" class="booking-form-modern">
+                    <!-- 1. Даты вылета и возвращения -->
+                    <div class="booking-dates-grid">
+                        <div class="form-group">
+                            <label for="bookDate">
+                                <span>🛫</span> <span data-lang="date">Ұшу күні</span>
+                            </label>
+                            <input type="date" id="bookDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookReturnDate">
+                                <span>🛬</span> <span data-lang="return_date_label">Қайту күні</span>
+                            </label>
+                            <input type="date" id="bookReturnDate" readonly>
+                        </div>
+                    </div>
+                    <small class="booking-field-hint" style="margin-top:-10px; margin-bottom:14px;" data-lang="date_hint">Ұшу күнін таңдаңыз, қайту күні автоматты есептеледі</small>
+
+                    <!-- 2. Количество взрослых и детей -->
+                    <div class="booking-dates-grid">
+                        <div class="form-group">
+                            <label for="bookPeople">
+                                <span>👥</span> <span data-lang="people">Ересектер саны</span>
+                            </label>
+                            <div class="people-stepper">
+                                <button type="button" class="stepper-btn" onclick="changePeople(-1)">−</button>
+                                <input type="number" id="bookPeople" min="1" max="20" value="1" required>
+                                <button type="button" class="stepper-btn" onclick="changePeople(1)">+</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookChildren">
+                                <span>👶</span> <span data-lang="children_label">Балалар (-50%)</span>
+                            </label>
+                            <div class="people-stepper">
+                                <button type="button" class="stepper-btn" onclick="changeChildren(-1)">−</button>
+                                <input type="number" id="bookChildren" min="0" max="10" value="0">
+                                <button type="button" class="stepper-btn" onclick="changeChildren(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Паспортные данные туриста -->
+                    <div class="booking-subbox">
+                        <div class="booking-subbox-head">
+                            <span data-lang="tourist_data_title">🛂 Туристің паспорт деректері</span>
+                            <button type="button" class="btn-autofill" onclick="autofillSavedTraveler()" data-lang="autofill_btn">⚡ Профильден</button>
+                        </div>
+                        <div class="form-group" style="margin-bottom:8px;">
+                            <input type="text" id="bookPassportName" data-lang-ph="passport_name_ph" placeholder="ФИО латиницей (AIGERIM SERIKKYZY)" required>
+                        </div>
+                        <div class="booking-dates-grid">
+                            <div class="form-group" style="margin-bottom:0;">
+                                <input type="text" id="bookPassportNum" data-lang-ph="passport_num_ph" placeholder="№ паспорта (N12345678)" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <input type="date" id="bookPassportDob" title="Дата рождения" value="1995-06-15">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Промокод -->
+                    <div class="form-group">
+                        <label for="bookPromoInput" data-lang="promo_label">🎁 Промокод (TRAVEL10, WELCOME5, KASPI30)</label>
+                        <div class="promo-input-row">
+                            <input type="text" id="bookPromoInput" data-lang-ph="promo_ph" placeholder="TRAVEL10">
+                            <button type="button" class="btn btn-small btn-outline" onclick="applyPromoCode()" data-lang="promo_apply">Қолдану</button>
+                        </div>
+                        <small id="promoStatusMsg" class="booking-field-hint"></small>
+                    </div>
+
+                    <!-- 5. Формат оплаты (100% или Предоплата 30%) -->
+                    <div class="form-group">
+                        <label for="bookPaymentPlan" data-lang="payment_plan_label">💳 Төлем форматы (48 сағат беріледі)</label>
+                        <select id="bookPaymentPlan" onchange="updateLivePrice()">
+                            <option value="full" data-lang="plan_full">100% Толық төлем (Бірден ваучер беріледі)</option>
+                            <option value="prepay" data-lang="plan_prepay">30% Алдын ала төлем (+70% ұшуға 7 күн қалғанда)</option>
+                        </select>
+                    </div>
+
+                    <!-- 6. Комментарий + быстрые теги пожеланий -->
+                    <div class="form-group">
+                        <label for="bookComment">
+                            <span>💬</span> <span data-lang="comment">Қосымша тілектер</span>
+                        </label>
+                        <div class="comment-quick-tags">
+                            <button type="button" class="comment-tag-btn" onclick="addCommentTag(this)" data-lang="tag_sea">🌊 Теңіз көрінісі</button>
+                            <button type="button" class="comment-tag-btn" onclick="addCommentTag(this)" data-lang="tag_crib">👶 Балалар кереуеті</button>
+                            <button type="button" class="comment-tag-btn" onclick="addCommentTag(this)" data-lang="tag_honeymoon">🥂 Бал айы</button>
+                            <button type="button" class="comment-tag-btn" onclick="addCommentTag(this)" data-lang="tag_quiet">🤫 Тыныш бөлме</button>
+                        </div>
+                        <textarea id="bookComment" rows="2" data-lang-ph="comment_ph" placeholder="Мысалы: теңізге қарайтын бөлме..."></textarea>
+                    </div>
+                    
+                    <!-- 7. Детальный калькулятор стоимости с учётом конструктора тура -->
+                    <div class="booking-price-calc">
+                        <div class="calc-row">
+                            <span id="calcFormula" class="calc-label">350 000 ₸ × 1 адам</span>
+                            <b id="calcBaseSum" class="calc-val">350 000 ₸</b>
+                        </div>
+                        <div class="calc-row" id="calcUpgradesRow" style="display:none;">
+                            <span class="calc-label" data-lang="calc_upgrades_label">Бөлме & ұшу класы</span>
+                            <b id="calcUpgradesSum" class="calc-val">+0 ₸</b>
+                        </div>
+                        <div class="calc-row" id="calcEntRow" style="display:none;">
+                            <span class="calc-label" data-lang="calc_ent_label">Ойын-сауық & қызметтер</span>
+                            <b id="calcEntSum" class="calc-val">+0 ₸</b>
+                        </div>
+                        <div class="calc-row" id="calcPromoRow" style="display:none;">
+                            <span class="calc-label" data-lang="calc_promo_label">Промокод жеңілдігі</span>
+                            <b id="calcPromoSum" class="calc-badge-free">-0 ₸</b>
+                        </div>
+                        <div class="calc-row">
+                            <span class="calc-label" data-lang="calc_flight_label">Әуе ұшуы және трансфер</span>
+                            <span class="calc-badge-free" data-lang="calc_included">Кіреді ✓</span>
+                        </div>
+                        <div class="calc-divider"></div>
+                        <div class="calc-total-row">
+                            <span data-lang="est_total">Жалпы төлем сомасы</span>
+                            <b id="liveBookingPrice" class="price">350 000 ₸</b>
+                        </div>
+                        <div class="calc-row" id="calcPayNowRow" style="margin-top:4px; padding-top:6px; border-top:1px dashed var(--border);">
+                            <span class="calc-label" data-lang="calc_now_pay">Қазір төлеуге (48 сағ ішінде):</span>
+                            <b id="livePayNowPrice" style="color:var(--success); font-size:16px;">350 000 ₸</b>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="bookingSubmitBtn" class="btn btn-full btn-book-cta">
+                        <span data-lang="btn_book">Брондау және төлемге өту (48 сағ)</span>
+                        <span>→</span>
+                    </button>
+                </form>
+
+                <!-- Блок доверия и быстрой связи с менеджером -->
+                <div class="booking-trust-box">
+                    <div class="trust-item">
+                        <span class="trust-check">⏳</span>
+                        <span data-lang="book_trust_1">Брондағаннан кейін төлем жасауға 48 сағат уақыт беріледі</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-check">🎫</span>
+                        <span data-lang="book_trust_2">Төлемнен соң QR-ваучер мен PDF құжаттар бірден ашылады</span>
+                    </div>
+                    <div class="booking-support-strip">
+                        <div class="support-icon-circle">
+                            <img src="images/phone.png" alt="Phone" class="inline-icon invert-dark">
+                        </div>
+                        <div>
+                            <small class="muted" data-lang="book_help_title">Кеңес керек пе?</small>
+                            <a href="tel:+77270000000" class="support-phone-link">+7 (727) 000-00-00</a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Модальное окно оплаты и QR-ваучера подключается автоматически через app.js -->
+    <div id="modalsContainer"></div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand-col">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                        <div class="logo-text-wrap">
+                            <span class="logo-brand">Travel<span>Mate</span></span>
+                            <small class="logo-sub">Your Journey, Simplified.</small>
+                        </div>
+                    </a>
+                    <p class="muted footer-desc" data-lang="footer_desc">Қазақстандағы тексерілген туристік агенттіктер мен саяхатшыларға арналған заманауи онлайн-платформа.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4 data-lang="footer_nav_title">Навигация</h4>
+                    <a href="index.html" data-lang="nav_home">Басты бет</a>
+                    <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                    <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+                </div>
+                <div class="footer-contact-col">
+                    <h4 data-lang="footer_contact_title">Байланыс орталығы</h4>
+                    <p><img src="images/address.png" alt="" class="inline-icon invert-dark"> <span data-lang="address">Алматы қ., Абай даңғылы, 10</span></p>
+                    <p><img src="images/phone.png" alt="" class="inline-icon invert-dark"> +7 (727) 000-00-00</p>
+                    <p><img src="images/mail.png" alt="" class="inline-icon invert-dark"> info@travelmate.kz</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>

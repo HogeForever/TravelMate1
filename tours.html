@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Турлар</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="tours">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="catalog-hero-header">
+            <h1 class="page-title" data-lang="tours_title">Барлық турлар каталогы</h1>
+            <p class="section-subtitle" style="text-align: left; margin-bottom: 0;" data-lang="tours_subtitle">Тексерілген туристік агенттіктердің ең таңдаулы бағыттары мен демалыс пакеттері</p>
+        </div>
+
+        <!-- Заманауи кеңейтілген сүзгі блогы (Modern Advanced Filter & Sorting) -->
+        <div class="filters-card filters-card-pro">
+            <div class="filter-group">
+                <label for="filterText" data-lang="filter_search_label">Бағыт немесе отель</label>
+                <div class="input-icon-wrap">
+                    <span class="input-icon">🔍</span>
+                    <input type="text" id="filterText" data-lang-ph="filter_ph">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterCountry" data-lang="filter_country_label">Елді таңдаңыз</label>
+                <select id="filterCountry">
+                    <option value="" data-lang="filter_all_countries">🌍 Барлық елдер</option>
+                    <option value="Түркия" data-lang="country_turkey">🇹🇷 Түркия</option>
+                    <option value="БАӘ" data-lang="country_uae">🇦🇪 БАӘ (Дубай)</option>
+                    <option value="Франция" data-lang="country_france">🇫🇷 Франция (Париж)</option>
+                    <option value="Қазақстан" data-lang="country_kz">🇰🇿 Қазақстан</option>
+                    <option value="Тайланд" data-lang="country_thailand">🇹🇭 Тайланд (Пхукет)</option>
+                    <option value="Мальдивы" data-lang="country_maldives">🇲🇻 Мальдив аралдары</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterType" data-lang="filter_type_label">Демалыс түрі</label>
+                <select id="filterType">
+                    <option value="" data-lang="filter_all_types">Барлық түрлері</option>
+                    <option value="beach" data-lang="type_beach">🏖️ Жағажай & Теңіз</option>
+                    <option value="luxury" data-lang="type_luxury">💎 Люкс & VIP</option>
+                    <option value="excursion" data-lang="type_excursion">🏛️ Экскурсиялық</option>
+                    <option value="mountain" data-lang="type_mountain">🏔️ Тау & Эко-тур</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterDays" data-lang="filter_days_label">Ұзақтығы</label>
+                <select id="filterDays">
+                    <option value="" data-lang="filter_all_days">Кез келген ұзақтық</option>
+                    <option value="short" data-lang="days_short">1–5 күн</option>
+                    <option value="medium" data-lang="days_medium">6–8 күн</option>
+                    <option value="long" data-lang="days_long">9+ күн</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterStars" data-lang="filter_stars_label">Қонақ үй жұлдызы</label>
+                <select id="filterStars">
+                    <option value="" data-lang="filter_all_stars">Барлық санаттар</option>
+                    <option value="5" data-lang="stars_5_opt">⭐⭐⭐⭐⭐ 5 жұлдыз (Люкс)</option>
+                    <option value="4" data-lang="stars_4_opt">⭐⭐⭐⭐ 4 жұлдыз (Комфорт)</option>
+                    <option value="3" data-lang="stars_3_opt">⭐⭐⭐ 3 жұлдыз (Стандарт)</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterMeal">🍽 Тамақтану / Питание</label>
+                <select id="filterMeal">
+                    <option value="">Любое питание</option>
+                    <option value="Ultra All Inclusive">Ultra All Inclusive</option>
+                    <option value="All Inclusive">All Inclusive</option>
+                    <option value="Full Board">Full Board (3-разовое)</option>
+                    <option value="Breakfast">Breakfast (Завтраки)</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filterDateFrom">🛫 Ұшу күні / Дата вылета</label>
+                <input type="date" id="filterDateFrom">
+            </div>
+
+            <div class="filter-group">
+                <label for="filterPrice" data-lang="filter_price_label">Максималды баға (₸)</label>
+                <div class="input-icon-wrap">
+                    <span class="input-icon">₸</span>
+                    <input type="number" id="filterPrice" data-lang-ph="filter_price_ph" min="0" step="25000">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label for="sortSelect" data-lang="sort_label">Сұрыптау</label>
+                <select id="sortSelect">
+                    <option value="popular" data-lang="sort_popular">🔥 Танымалдығы бойынша</option>
+                    <option value="price_asc" data-lang="sort_price_asc">💰 Арзанынан бастап</option>
+                    <option value="price_desc" data-lang="sort_price_desc">💎 Қымбатынан бастап</option>
+                    <option value="rating" data-lang="sort_rating">⭐ Рейтингі жоғары</option>
+                    <option value="date" data-lang="sort_date">📅 Ең жақын ұшу күні</option>
+                </select>
+            </div>
+
+            <div class="filter-action-group">
+                <button type="button" id="btnResetFilter" class="btn btn-outline" data-lang="filter_btn_reset">Тазалау</button>
+            </div>
+        </div>
+
+        <!-- Статистика найденных туров -->
+        <div id="filterResultCount" class="filter-result-info"></div>
+
+        <!-- Карточки появятся здесь (app.js → renderTours) -->
+        <div class="grid" id="toursList"></div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand-col">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                        <div class="logo-text-wrap">
+                            <span class="logo-brand">Travel<span>Mate</span></span>
+                            <small class="logo-sub">Your Journey, Simplified.</small>
+                        </div>
+                    </a>
+                    <p class="muted footer-desc" data-lang="footer_desc">Қазақстандағы тексерілген туристік агенттіктер мен саяхатшыларға арналған заманауи онлайн-платформа.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4 data-lang="footer_nav_title">Навигация</h4>
+                    <a href="index.html" data-lang="nav_home">Басты бет</a>
+                    <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                    <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+                </div>
+                <div class="footer-contact-col">
+                    <h4 data-lang="footer_contact_title">Байланыс орталығы</h4>
+                    <p><img src="images/address.png" alt="" class="inline-icon invert-dark"> <span data-lang="address">Алматы қ., Абай даңғылы, 10</span></p>
+                    <p><img src="images/phone.png" alt="" class="inline-icon invert-dark"> +7 (727) 000-00-00</p>
+                    <p><img src="images/mail.png" alt="" class="inline-icon invert-dark"> info@travelmate.kz</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>

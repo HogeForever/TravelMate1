@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Тіркелу</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="register">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="card form-box">
+            <div class="auth-logo-top">
+                <img src="images/logo-icon.png" alt="TravelMate">
+            </div>
+            <h1 data-lang="register_title">Тіркелу</h1>
+            <div id="registerMsg"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="regRole" data-lang="role">Мен —</label>
+                    <select id="regRole">
+                        <option value="client" data-lang="role_client">Клиент</option>
+                        <option value="agency" data-lang="role_agency">Туристік агенттік</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="regName" data-lang="name">Аты-жөні</label>
+                    <input type="text" id="regName" required>
+                </div>
+                <div class="form-group">
+                    <label for="regEmail" data-lang="email">Email</label>
+                    <input type="email" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPhone" data-lang="phone">Телефон</label>
+                    <input type="tel" id="regPhone" placeholder="+7 700 000 00 00">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword" data-lang="password">Құпия сөз</label>
+                    <input type="password" id="regPassword" minlength="6" required>
+                </div>
+
+                <p class="alert alert-info" data-lang="agency_note"></p>
+
+                <button type="submit" class="btn btn-full" data-lang="btn_register">Тіркелу</button>
+            </form>
+
+            <p class="form-link">
+                <span data-lang="have_account">Аккаунтыңыз бар ма?</span>
+                <a href="login.html" data-lang="nav_login">Кіру</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none; padding-top:0;">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>

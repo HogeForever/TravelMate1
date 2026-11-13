@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Байланыс</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="contact">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="catalog-hero-header">
+            <h1 class="page-title" data-lang="contact_title">Бізбен байланысыңыз</h1>
+            <p class="section-subtitle" style="text-align: left; margin-bottom: 0;" data-lang="contact_subtitle">Демалысты таңдау бойынша сұрақтарыңыз бар ма? Біздің мамандар сізге көмектесуге дайын.</p>
+        </div>
+
+        <div class="two-cols contact-cols">
+            <div class="panel">
+                <h2 data-lang="contact_form_title">Хабарлама қалдыру</h2>
+                <div id="contactMsg"></div>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="contactName" data-lang="name">Аты-жөні</label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail" data-lang="email">Email</label>
+                        <input type="email" id="contactEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactText" data-lang="message">Хабарлама</label>
+                        <textarea id="contactText" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-full" data-lang="btn_send">Жіберу</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2 data-lang="contact_info_title">Байланыс деректері</h2>
+                <p class="muted" style="margin-bottom: 22px; font-size: 15px;" data-lang="contact_text"></p>
+                
+                <div class="contact-cards-list">
+                    <div class="contact-info-item">
+                        <div class="contact-icon-box">
+                            <img src="images/address.png" alt="Address" class="contact-img-icon invert-dark">
+                        </div>
+                        <div>
+                            <small class="muted" data-lang="address_label">Біздің мекенжай</small>
+                            <b data-lang="address">Алматы қ., Абай даңғылы, 10</b>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon-box">
+                            <img src="images/phone.png" alt="Phone" class="contact-img-icon invert-dark">
+                        </div>
+                        <div>
+                            <small class="muted" data-lang="phone_label">Байланыс телефоны</small>
+                            <b><a href="tel:+77270000000">+7 (727) 000-00-00</a></b>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon-box">
+                            <img src="images/mail.png" alt="Email" class="contact-img-icon invert-dark">
+                        </div>
+                        <div>
+                            <small class="muted" data-lang="email_label">Электронды пошта</small>
+                            <b><a href="mailto:info@travelmate.kz">info@travelmate.kz</a></b>
+                        </div>
+                    </div>
+
+                    <div class="contact-info-item">
+                        <div class="contact-icon-box">🕘</div>
+                        <div>
+                            <small class="muted" data-lang="work_time_label">Жұмыс уақыты</small>
+                            <b data-lang="work_time">Дс–Жм: 09:00 – 19:00</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand-col">
+                    <a href="index.html" class="logo">
+                        <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                        <div class="logo-text-wrap">
+                            <span class="logo-brand">Travel<span>Mate</span></span>
+                            <small class="logo-sub">Your Journey, Simplified.</small>
+                        </div>
+                    </a>
+                    <p class="muted footer-desc" data-lang="footer_desc">Қазақстандағы тексерілген туристік агенттіктер мен саяхатшыларға арналған заманауи онлайн-платформа.</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4 data-lang="footer_nav_title">Навигация</h4>
+                    <a href="index.html" data-lang="nav_home">Басты бет</a>
+                    <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                    <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+                </div>
+                <div class="footer-contact-col">
+                    <h4 data-lang="footer_contact_title">Байланыс орталығы</h4>
+                    <p><img src="images/address.png" alt="" class="inline-icon invert-dark"> <span data-lang="address">Алматы қ., Абай даңғылы, 10</span></p>
+                    <p><img src="images/phone.png" alt="" class="inline-icon invert-dark"> +7 (727) 000-00-00</p>
+                    <p><img src="images/mail.png" alt="" class="inline-icon invert-dark"> info@travelmate.kz</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Агенттік кабинеті</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="agency">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title" data-lang="agency_title">Агенттік кабинеті</h1>
+        <p class="muted"><span data-lang="welcome">Қош келдіңіз,</span> <b id="userName"></b> 👋</p>
+
+        <p class="alert alert-info" id="agencyPending" style="display: none; margin-top: 20px;" data-lang="agency_pending"></p>
+
+        <div id="agencyContent">
+
+            <!-- ===== Заявки клиентов, настройки тура и статус оплаты (48ч) ===== -->
+            <div class="panel">
+                <h2 data-lang="requests">Клиенттердің өтінімдері мен төлемдері</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-lang="client">Клиент & Паспорт</th>
+                                <th data-lang="tour">Тур & Сапар күні</th>
+                                <th data-lang="people">Адам</th>
+                                <th data-lang="custom_col">Таңдалған бөлме, рейс & Развлечения</th>
+                                <th data-lang="total">Сомасы</th>
+                                <th data-lang="payment_col">Төлем & Таймер (48с)</th>
+                                <th data-lang="status">Күйі</th>
+                                <th data-lang="actions">Әрекеттер</th>
+                            </tr>
+                        </thead>
+                        <tbody id="agencyRequests"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== Сохранённые паспортные данные клиентов (доступно только Турагентству и Админу) ===== -->
+            <div class="panel">
+                <h2>🛂 Сохранённые паспортные данные клиентов (База туристов)</h2>
+                <p class="muted" style="margin-top:-6px; margin-bottom:14px; font-size:13.5px;">🔒 У каждого клиента свои изолированные паспортные данные. Полный реестр паспортов всех клиентов виден только Турагентству и Администратору.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Аккаунт клиента</th>
+                                <th>ФИО по паспорту (латиницей)</th>
+                                <th>№ паспорта</th>
+                                <th>Дата рождения</th>
+                                <th>Телефон</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="agencyTravelersTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== Мои туры ===== -->
+            <div class="panel">
+                <h2 data-lang="my_tours">Менің турларым</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-lang="tour">Тур</th>
+                                <th data-lang="country">Ел</th>
+                                <th data-lang="duration">Ұзақтығы</th>
+                                <th data-lang="price">Баға</th>
+                                <th data-lang="actions">Әрекеттер</th>
+                            </tr>
+                        </thead>
+                        <tbody id="agencyTours"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ===== Форма добавления / редактирования тура ===== -->
+            <div class="panel">
+                <h2 id="tourFormTitle" data-lang="add_tour">Жаңа тур қосу</h2>
+                <form id="tourForm">
+                    <input type="hidden" id="tourId">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="tourTitle" data-lang="f_title">Тур атауы</label>
+                            <input type="text" id="tourTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tourCountry" data-lang="country">Ел</label>
+                            <input type="text" id="tourCountry" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tourDays" data-lang="duration">Ұзақтығы</label>
+                            <input type="number" id="tourDays" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tourPrice" data-lang="price">Баға</label>
+                            <input type="number" id="tourPrice" min="0" step="1000" required>
+                        </div>
+                        <div class="form-group full">
+                            <label for="tourImage" data-lang="image_url">Сурет сілтемесі (URL)</label>
+                            <input type="url" id="tourImage" placeholder="https://...">
+                        </div>
+                        <div class="form-group full">
+                            <label for="tourDescription" data-lang="description">Сипаттамасы</label>
+                            <textarea id="tourDescription" required></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" data-lang="btn_save">Сақтау</button>
+                    <button type="button" class="btn btn-gray" onclick="resetTourForm()" data-lang="btn_clear">Тазалау</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <div id="modalsContainer"></div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none; padding-top:0;">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>

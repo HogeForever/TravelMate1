@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelMate — Кіру</title>
+    <link rel="icon" type="image/png" href="images/logo-icon.png">
+    <link rel="stylesheet" href="css/style.css?v=10">
+    <script src="js/theme.js"></script>
+</head>
+<body data-page="login">
+
+    <header class="header">
+        <div class="container header-inner">
+            <a href="index.html" class="logo">
+                <img src="images/logo-icon.png" alt="TravelMate" class="logo-img">
+                <div class="logo-text-wrap">
+                    <span class="logo-brand">Travel<span>Mate</span></span>
+                    <small class="logo-sub">Your Journey, Simplified.</small>
+                </div>
+            </a>
+            <nav class="nav">
+                <a href="index.html" data-lang="nav_home">Басты бет</a>
+                <a href="tours.html" data-lang="nav_tours">Турлар</a>
+                <a href="contact.html" data-lang="nav_contact">Байланыс</a>
+            </nav>
+            <div class="header-actions">
+                <div class="lang-switch">
+                    <button class="lang-btn" data-code="kz" onclick="setLang('kz')">KZ</button>
+                    <button class="lang-btn" data-code="ru" onclick="setLang('ru')">RU</button>
+                </div>
+                <button class="theme-btn" onclick="toggleTheme()" title="Тема">
+                    <img src="images/moon.png" alt="Theme" class="theme-icon-img">
+                </button>
+                <span id="userMenu"></span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="card form-box">
+            <div class="auth-logo-top">
+                <img src="images/logo-icon.png" alt="TravelMate">
+            </div>
+            <h1 data-lang="login_title">Жүйеге кіру</h1>
+            <div id="loginMsg"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail" data-lang="email">Email</label>
+                    <input type="email" id="loginEmail" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword" data-lang="password">Құпия сөз</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-full" data-lang="btn_login">Кіру</button>
+            </form>
+
+            <p class="form-link">
+                <span data-lang="no_account">Аккаунтыңыз жоқ па?</span>
+                <a href="register.html" data-lang="nav_register">Тіркелу</a>
+            </p>
+
+            <!-- Тестовые аккаунты: нажмите, чтобы заполнить форму -->
+            <div class="demo-box">
+                <p data-lang="demo_title"></p>
+                <button type="button" class="btn btn-small btn-outline" onclick="fillDemo('admin@travelmate.kz')" data-lang="role_admin"></button>
+                <button type="button" class="btn btn-small btn-outline" onclick="fillDemo('agency@travelmate.kz')" data-lang="role_agency"></button>
+                <button type="button" class="btn btn-small btn-outline" onclick="fillDemo('client@travelmate.kz')" data-lang="role_client"></button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top:none; padding-top:0;">
+                <p data-lang="footer_text">© 2026 TravelMate. Барлық құқықтар қорғалған.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/lang.js?v=10"></script>
+    <script src="js/data.js?v=10"></script>
+    <script src="js/app.js?v=10"></script>
+</body>
+</html>
